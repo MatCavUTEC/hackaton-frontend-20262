@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toAppError, type AppError } from "../api/errors";
 import { getWanted } from "../api/wanted";
@@ -29,9 +29,18 @@ function WantedPoster({ id }: { id: string }) {
   const [reloadKey, setReloadKey] = useState(0);
 
   // Volver al listado con los mismos filtros (siguen en location.search)
-  function close() {
+  const close = useCallback(() => {
     navigate({ pathname: "/wanted", search: location.search }, { replace: true });
-  }
+  }, [navigate, location.search]);
+
+  // Escape cierra el detalle, esté donde esté el foco
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") close();
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [close]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -66,11 +75,7 @@ function WantedPoster({ id }: { id: string }) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="wanted-title"
-      tabIndex={-1} // si haces clic dentro, el foco (y el Escape) siguen aquí
-      onKeyDown={(event) => {
-        if (event.key === "Escape") close();
-      }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 outline-none"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
     >
       <div className="max-h-full w-full max-w-lg space-y-5 overflow-y-auto rounded-2xl border border-amber-900 bg-slate-900 p-6">
         <div className="flex items-center justify-between gap-4">

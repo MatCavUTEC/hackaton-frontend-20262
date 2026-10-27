@@ -22,6 +22,12 @@ function AppLayout() {
               <NavLink to="/wanted" className={navLinkClass}>
                 Se Busca
               </NavLink>
+              <NavLink to="/news" className={navLinkClass}>
+                Noticias
+              </NavLink>
+              <NavLink to="/sagas" className={navLinkClass}>
+                Sagas
+              </NavLink>
             </nav>
           </div>
           <div className="flex items-center gap-3 text-sm">

@@ -1,7 +1,11 @@
 import type {
   CrewRole,
   FruitFilter,
+  NewsPriority,
+  NewsStatus,
+  NewsType,
   PageSize,
+  StageMetric,
   WantedSort,
   WantedStatus,
 } from "../types/api";
@@ -75,6 +79,55 @@ export const primaryButtonClass =
 export const secondaryButtonClass =
   "rounded-md border border-slate-700 px-3 py-1.5 text-sm hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40";
 
+// ===== Noticias (CP4) =====
+export const NEWS_TYPES: readonly NewsType[] = [
+  "BOUNTY_UPDATE",
+  "BATTLE",
+  "MARINE_OPERATION",
+  "WORLD_GOVERNMENT",
+  "DISCOVERY",
+];
+export const NEWS_PRIORITIES: readonly NewsPriority[] = [
+  "LOW",
+  "MEDIUM",
+  "HIGH",
+  "CRITICAL",
+];
+export const NEWS_STATUSES: readonly NewsStatus[] = [
+  "RUMOR",
+  "CONFIRMED",
+  "DEBUNKED",
+];
+export const NEWS_TYPE_LABEL: Record<NewsType, string> = {
+  BOUNTY_UPDATE: "Recompensas",
+  BATTLE: "Batalla",
+  MARINE_OPERATION: "Operación de la Marina",
+  WORLD_GOVERNMENT: "Gobierno Mundial",
+  DISCOVERY: "Descubrimiento",
+};
+export const PRIORITY_LABEL: Record<NewsPriority, string> = {
+  LOW: "Baja",
+  MEDIUM: "Media",
+  HIGH: "Alta",
+  CRITICAL: "Crítica",
+};
+export const NEWS_STATUS_LABEL: Record<NewsStatus, string> = {
+  RUMOR: "Rumor",
+  CONFIRMED: "Confirmada",
+  DEBUNKED: "Desmentida",
+};
+export const PRIORITY_BADGE: Record<NewsPriority, string> = {
+  LOW: "bg-slate-800 text-slate-300",
+  MEDIUM: "bg-sky-950 text-sky-300",
+  HIGH: "bg-amber-950 text-amber-300",
+  CRITICAL: "bg-rose-950 text-rose-300",
+};
+export const NEWS_STATUS_BADGE: Record<NewsStatus, string> = {
+  RUMOR: "bg-violet-950 text-violet-300",
+  CONFIRMED: "bg-emerald-950 text-emerald-300",
+  DEBUNKED: "bg-slate-800 text-slate-400 line-through",
+};
+
 // ===== Formatos =====
 export function formatBerries(amount: number): string {
   return `฿ ${amount.toLocaleString("es-PE")}`;
@@ -85,6 +138,12 @@ export function formatDateTime(iso: string): string {
     dateStyle: "medium",
     timeStyle: "short",
   });
+}
+
+// Métrica de una etapa de la saga: "฿ 76,700,000", "74 %", "3 /10", "1,218 mn"
+export function formatMetric(metric: StageMetric): string {
+  if (metric.unit === "berries") return formatBerries(metric.value);
+  return `${metric.value.toLocaleString("es-PE")} ${metric.unit}`;
 }
 
 export function formatDate(iso: string): string {
