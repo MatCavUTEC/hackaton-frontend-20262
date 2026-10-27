@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+html {
+  color-scheme: dark;
+  background-color: #020617; /* slate-950: sin destellos blancos al cargar */
+  scrollbar-gutter: stable; /* el layout no se mueve al abrir el detalle */
+}
+
+/* Si el usuario pidió menos movimiento, sin animación de carga */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse {
+    animation: none;
+  }
+}
